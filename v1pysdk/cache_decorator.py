@@ -1,11 +1,15 @@
 def key_by_args_kw(old_f, args, kw, cache_data):
-    'Function to build a cache key for the cached_by_keyfunc decorator. '
-    'This one just caches based on the function call arguments. i.e. Memoize '
+    """
+    Function to build a cache key for the cached_by_keyfunc decorator.
+    This one just caches based on the function call arguments. i.e. Memoize
+    """
     return repr((args, kw))
 
 
 def cached_by_keyfunc(keyfunc):
-    """Calls keyfunc with (old_f, args, kw, datadict) to get cache key """
+    """
+    Calls keyfunc with (old_f, args, kw, datadict) to get cache key
+    """
 
     def decorator(old_f):
         data = {}
