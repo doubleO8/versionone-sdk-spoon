@@ -1,5 +1,4 @@
-
-.idea
+/.idea/
 *.pyc
 \#*\#
 
@@ -7,3 +6,4 @@
 build/
 dist/
 v1pysdk.egg-info/
+/examples/credentials.py
