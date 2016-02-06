@@ -3,12 +3,16 @@ from string_utils import split_attribute
 
 
 class V1Query(object):
-    """A fluent query object. Use .select() and .where() to add items to the
+    """
+    A fluent query object. Use .select() and .where() to add items to the
     select list and the query criteria, then iterate over the object to execute
-    and use the query results."""
+    and use the query results.
+    """
 
     def __init__(self, asset_class, sel_string=None, filterexpr=None):
-        "Takes the asset class we will be querying"
+        """
+        Takes the asset class we will be querying
+        """
         self.asset_class = asset_class
         self.where_terms = {}
         self.sel_list = []
@@ -20,7 +24,9 @@ class V1Query(object):
         self.where_string = filterexpr
 
     def __iter__(self):
-        "Iterate over the results."
+        """
+        Iterate over the results.
+        """
         if not self.query_has_run:
             self.run_query()
         for (result, asof) in self.query_results:
@@ -50,7 +56,9 @@ class V1Query(object):
         return xml
 
     def run_query(self):
-        "Actually hit the server to perform the query"
+        """
+        Actually hit the server to perform the query
+        """
         url_params = {}
         if self.get_sel_string() or self.empty_sel:
             url_params['sel'] = self.get_sel_string()
@@ -72,9 +80,11 @@ class V1Query(object):
         self.query_has_run = True
 
     def select(self, *args, **kw):
-        """Add attribute names to the select list for this query. The attributes
-        in the select list will be returned in the query results, and can be used
-        without further network traffic"""
+        """
+        Add attribute names to the select list for this query. The attributes
+        in the select list will be returned in the query results, and can be
+        used without further network traffic
+        """
 
         for sel in args:
             parts = split_attribute(sel)
@@ -86,8 +96,10 @@ class V1Query(object):
         return self
 
     def where(self, terms={}, **kw):
-        """Add where terms to the criteria for this query. Right now this method
-        only allows Equals comparisons."""
+        """
+        Add where terms to the criteria for this query. Right now this method
+        only allows Equals comparisons.
+        """
         self.where_terms.update(terms)
         self.where_terms.update(kw)
         return self
@@ -112,7 +124,8 @@ class V1Query(object):
             found_asset.pending(updatelist)
 
     def __getattr__(self, attrname):
-        """ Return a sequence of the attribute from all matched results
+        """
+        Return a sequence of the attribute from all matched results
 
         .. note::
 

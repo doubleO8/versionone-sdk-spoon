@@ -10,52 +10,52 @@ class BaseAsset(object):
     """
 
     @classmethod
-    def query(Class, where=None, sel=None):
+    def query(cls, where=None, sel=None):
         """
         Takes a V1 Data query string and returns an iterable of all matching
         items
         """
-        return V1Query(Class, sel, where)
+        return V1Query(cls, sel, where)
 
     @classmethod
-    def select(Class, *selectlist):
-        return V1Query(Class).select(*selectlist)
+    def select(cls, *selectlist):
+        return V1Query(cls).select(*selectlist)
 
     @classmethod
-    def where(Class, **wherekw):
-        return V1Query(Class).where(**wherekw)
+    def where(cls, **wherekw):
+        return V1Query(cls).where(**wherekw)
 
     @classmethod
-    def filter(Class, filterexpr):
-        return V1Query(Class).filter(filterexpr)
+    def filter(cls, filterexpr):
+        return V1Query(cls).filter(filterexpr)
 
     @classmethod
-    def asof(Class, *asofs):
-        return V1Query(Class).asof(*asofs)
+    def asof(cls, *asofs):
+        return V1Query(cls).asof(*asofs)
 
     @classmethod
-    def from_query_select(Class, xml, asof=None):
+    def from_query_select(cls, xml, asof=None):
         """
         Find or instantiate an object and fill it with data that just came back
         from query
         """
         idref = xml.get('id')
-        data = Class._v1_v1meta.unpack_asset(xml)
-        instance = Class._v1_v1meta.asset_from_oid(idref)
+        data = cls._v1_v1meta.unpack_asset(xml)
+        instance = cls._v1_v1meta.asset_from_oid(idref)
         instance.AsOf = asof
         data['AsOf'] = asof
         return instance.with_data(data)
 
     @classmethod
-    def create(Class, **newdata):
+    def create(cls, **newdata):
         """
         create new asset on server and return created asset proxy instance
         """
-        return Class._v1_v1meta.create_asset(Class._v1_asset_type_name, newdata)
+        return cls._v1_v1meta.create_asset(cls._v1_asset_type_name, newdata)
 
     class IterableType(type):
-        def __iter__(Class):
-            for instance in Class.query():
+        def __iter__(cls):
+            for instance in cls.query():
                 instance.needs_refresh = True
                 yield instance
 
@@ -66,14 +66,16 @@ class BaseAsset(object):
     """
     __metaclass__ = IterableType
 
-    def __new__(Class, oid, moment=None):
-        "Tries to get an instance out of the cache first, otherwise creates one"
-        cache_key = (Class._v1_asset_type_name, oid, moment)
-        cache = Class._v1_v1meta.global_cache
+    def __new__(cls, oid, moment=None):
+        """
+        Tries to get an instance out of the cache first, otherwise creates one
+        """
+        cache_key = (cls._v1_asset_type_name, oid, moment)
+        cache = cls._v1_v1meta.global_cache
         if cache.has_key(cache_key):
             self = cache[cache_key]
         else:
-            self = object.__new__(Class)
+            self = object.__new__(cls)
             self._v1_moment = moment
             self._v1_oid = oid
             self._v1_new_data = {}
