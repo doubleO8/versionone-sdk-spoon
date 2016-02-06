@@ -7,4 +7,5 @@ build/
 dist/
 v1pysdk.egg-info/
 /examples/credentials.py
+/examples/output.dat
 /examples/output.txt
