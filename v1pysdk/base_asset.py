@@ -4,12 +4,17 @@ from query import V1Query
 
 
 class BaseAsset(object):
-    """Provides common methods for the dynamically derived asset type classes
-       built by V1Meta.asset_class"""
+    """
+    Provides common methods for the dynamically derived asset type classes
+    built by V1Meta.asset_class
+    """
 
     @classmethod
     def query(Class, where=None, sel=None):
-        'Takes a V1 Data query string and returns an iterable of all matching items'
+        """
+        Takes a V1 Data query string and returns an iterable of all matching
+        items
+        """
         return V1Query(Class, sel, where)
 
     @classmethod
@@ -30,7 +35,10 @@ class BaseAsset(object):
 
     @classmethod
     def from_query_select(Class, xml, asof=None):
-        "Find or instantiate an object and fill it with data that just came back from query"
+        """
+        Find or instantiate an object and fill it with data that just came back
+        from query
+        """
         idref = xml.get('id')
         data = Class._v1_v1meta.unpack_asset(xml)
         instance = Class._v1_v1meta.asset_from_oid(idref)
@@ -40,7 +48,9 @@ class BaseAsset(object):
 
     @classmethod
     def create(Class, **newdata):
-        "create new asset on server and return created asset proxy instance"
+        """
+        create new asset on server and return created asset proxy instance
+        """
         return Class._v1_v1meta.create_asset(Class._v1_asset_type_name, newdata)
 
     class IterableType(type):
@@ -136,8 +146,11 @@ class BaseAsset(object):
         return out
 
     def _v1_getattr(self, attr):
-        "Intercept access to missing attribute names. "
-        "first return uncommitted data, then refresh if needed, then get single attr, else fail"
+        """
+        Intercept access to missing attribute names.
+        first return uncommitted data, then refresh if needed,
+        then get single attr, else fail
+        """
         if self._v1_new_data.has_key(attr):
             value = self._v1_new_data[attr]
         else:
@@ -149,7 +162,9 @@ class BaseAsset(object):
         return value
 
     def _v1_setattr(self, attr, value):
-        'Stores a new value for later commit'
+        """
+        Stores a new value for later commit
+        """
         if attr.startswith('_v1_'):
             object.__setattr__(self, attr, value)
         else:
@@ -162,19 +177,25 @@ class BaseAsset(object):
         return self
 
     def with_data(self, newdata):
-        "bulk-set instance data"
+        """
+        bulk-set instance data
+        """
         self._v1_current_data.update(dict(newdata))
         self._v1_needs_refresh = False
         return self
 
     def pending(self, newdata):
-        "bulk-set data to commit"
+        """
+        bulk-set data to commit
+        """
         self._v1_new_data.update(dict(newdata))
         self._v1_v1meta.add_to_dirty_list(self)
         self._v1_needs_commit = True
 
     def _v1_commit(self):
-        'Commits the object to the server and invalidates its sync state'
+        """
+        Commits the object to the server and invalidates its sync state
+        """
         if self._v1_needs_commit:
             self._v1_v1meta.update_asset(self._v1_asset_type_name, self._v1_oid,
                                          self._v1_new_data)
@@ -184,7 +205,9 @@ class BaseAsset(object):
             self._v1_needs_refresh = True
 
     def _v1_refresh(self):
-        'Syncs the objects from current server data'
+        """
+        Syncs the objects from current server data
+        """
         self._v1_current_data = self._v1_v1meta.read_asset(
             self._v1_asset_type_name, self._v1_oid, self._v1_moment)
         self._v1_needs_refresh = False
