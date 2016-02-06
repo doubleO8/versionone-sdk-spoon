@@ -6,11 +6,11 @@ from urllib import urlencode
 from urlparse import urlunparse, urlparse
 
 try:
+    from lxml.etree import ElementTree
+    from lxml.etree.ElementTree import Element
+except ImportError:
     from xml.etree import ElementTree
     from xml.etree.ElementTree import Element
-except ImportError:
-    from elementtree import ElementTree
-    from elementtree.ElementTree import Element
 
 AUTH_HANDLERS = [HTTPBasicAuthHandler]
 

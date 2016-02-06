@@ -1,9 +1,9 @@
 try:
+    from lxml.etree import ElementTree
+    from lxml.etree.ElementTree import Element
+except ImportError:
     from xml.etree import ElementTree
     from xml.etree.ElementTree import Element
-except ImportError:
-    from elementtree import ElementTree
-    from elementtree.ElementTree import Element
 
 from client import V1Server, V1Error
 from base_asset import BaseAsset
