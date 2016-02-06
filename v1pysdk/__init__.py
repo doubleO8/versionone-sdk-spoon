@@ -5,4 +5,3 @@ VersionOne server (defaulting to localhost/VersionOne.Web).
 """
 
 from v1meta import V1Meta
-from v1poll import V1Poll
