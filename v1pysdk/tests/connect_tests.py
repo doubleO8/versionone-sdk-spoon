@@ -1,17 +1,29 @@
-from testtools import TestCase
-from testtools.matchers import Equals
+import sys
+import os
+import unittest
 
-from elementtree.ElementTree import parse, fromstring, ElementTree
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
-from v1pysdk.client import *
+try:
+    from lxml.etree import ElementTree
+    from lxml.etree.ElementTree import Element
+except ImportError:
+    from xml.etree import ElementTree
+    from xml.etree.ElementTree import Element
+
+from examples.credentials import INSTANCE_URL, TOKEN
+from v1pysdk.client import V1Server
 
 
-class TestV1Connection(TestCase):
+class TestV1Connection(unittest.TestCase):
     def test_connect(self, username='admin', password='admin'):
-        server = V1Server(address='www14.v1host.com', username=username,
-                          password=password, instance='v1sdktesting')
+        server = V1Server(instance_url=INSTANCE_URL, token=TOKEN)
         code, body = server.fetch('/rest-1.v1/Data/Story?sel=Name')
         print "\n\nCode: ", code
         print "Body: ", body
-        elem = fromstring(body)
-        self.assertThat(elem.tag, Equals('Assets'))
+        elem = ElementTree.fromstring(body)
+        self.assertEquals(elem.tag, 'Assets')
+
+
+if __name__ == '__main__':
+    unittest.main()
