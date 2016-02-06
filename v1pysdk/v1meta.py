@@ -18,8 +18,10 @@ class V1Meta(object):
         self.dirtylist = []
 
     def __getattr__(self, attr):
-        "Dynamically build asset type classes when someone tries to get attrs "
-        "that we don't have."
+        """
+        Dynamically build asset type classes when someone tries to get attrs
+        that we don't have.
+        """
         return self.asset_class(attr)
 
     def __enter__(self):
@@ -210,7 +212,8 @@ class V1Meta(object):
 
             for (asset, value) in zip(
                     self.get_related_assets(output, container), values):
-                # for calculated values it is not an asset so take the value directly
+                # for calculated values it is not an asset so take the value
+                # directly
                 if hasattr(asset, 'with_data'):
                     asset.with_data({leaf: value})
                 else:
