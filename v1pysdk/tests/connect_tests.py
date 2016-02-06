@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 import os
 import unittest
@@ -16,7 +19,7 @@ from v1pysdk.client import V1Server
 
 
 class TestV1Connection(unittest.TestCase):
-    def test_connect(self, username='admin', password='admin'):
+    def test_connect(self):
         server = V1Server(instance_url=INSTANCE_URL, token=TOKEN)
         code, body = server.fetch('/rest-1.v1/Data/Story?sel=Name')
         print "\n\nCode: ", code
