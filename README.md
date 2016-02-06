@@ -252,46 +252,8 @@ with V1Meta(
                   )
         for result in results:
             print result.data['AsOf'], [o.Name for o in result.Owners]
-      
-      
-### Polling (TODO)
 
-  A simple callback api will be available to hook asset changes
-  
-      from v1meta import V1Meta
-      from v1poll import V1Poller
-      
-      MAILBODY = """
-      From: VersionOne Notification <notifier@versionone.mycorp.com>
-      To: John Smith <cto@mycorp.com>
-      
-      Please take note of the high risk story '{0}' recently created in VersionOne.
-      
-      Link: {1}
-      
-      
-      Thanks,
-      
-      Your VersionOne Software
-      """.lstrip()
-      
-      def notify_CTO_of_high_risk_stories(story):
-        if story.Risk > 10:
-            import smtplib, time
-            server = smtplib.SMTP('smtp.mycorp.com')
-            server.sendmail(MAILBODY.format(story.Name, story.url))
-            server.quit()
-            story.CustomNotificationLog = (story.CustomNotificationLog +
-                "\n Notified CTO on {0}".format(time.asctime()))
-                
-      with V1Meta() as v1:
-        with V1Poller(v1) as poller:
-          poller.run_on_new('Story', notify_CTO_of_high_risk_stories)
-          
-      print "Notification complete and log updated."
-          
-      
-      
+
 ## Performance notes
 
   An HTTP request is made to the server the first time each asset class is referenced.
