@@ -41,10 +41,12 @@ else:
     AUTH_HANDLERS.append(CustomHTTPNtlmAuthHandler)
 
 
-class V1Error(Exception): pass
+class V1Error(Exception):
+    pass
 
 
-class V1AssetNotFoundError(V1Error): pass
+class V1AssetNotFoundError(V1Error):
+    pass
 
 
 class V1Server(object):
@@ -52,9 +54,28 @@ class V1Server(object):
     Accesses a V1 HTTP server as a client of the XML API protocol
     """
 
-    def __init__(self, address="localhost", instance="VersionOne.Web",
-                 username='', password='', scheme="http", instance_url=None,
-                 logparent=None, loglevel=logging.ERROR):
+#    def __init__(self, address="localhost", instance="VersionOne.Web",
+#                 username='', password='', scheme="http", instance_url=None,
+#                 logparent=None, loglevel=logging.ERROR):
+    def __init__(self, **kwargs):
+        """
+        If *instance_url* is set its value will override address, instance, scheme
+        and object's instance_url attributes.
+
+        :param address: target hostname
+        :param instance: instance
+        :param username: credentials (username)
+        :param password: credentials (password)
+        :param token: credentials (authentication token)
+        :param scheme: HTTP scheme
+        :param instance_url: instance URL
+        :param logparent: logger prefix
+        :param loglevel: logging level
+        """
+        instance_url = kwargs.get("instance_url")
+        logparent = kwargs.get("logparent")
+        loglevel = kwargs.get("loglevel", logging.ERROR)
+
         if instance_url:
             self.instance_url = instance_url
             parsed = urlparse(instance_url)
@@ -62,6 +83,9 @@ class V1Server(object):
             self.instance = parsed.path.strip('/')
             self.scheme = parsed.scheme
         else:
+            address = kwargs.get("address", 'localhost')
+            instance = kwargs.get("instance", 'VersionOne.Web')
+            scheme = kwargs.get("scheme", 'http')
             self.address = address
             self.instance = instance.strip('/')
             self.scheme = scheme
@@ -71,8 +95,11 @@ class V1Server(object):
         logname = "%s.%s" % (logparent, modulelogname) if logparent else None
         self.logger = logging.getLogger(logname)
         self.logger.setLevel(loglevel)
-        self.username = username
-        self.password = password
+
+        self.username = kwargs.get("username", '')
+        self.password = kwargs.get("password", '')
+        self.token = kwargs.get("token")
+
         self._install_opener()
 
     def _install_opener(self):
@@ -83,6 +110,9 @@ class V1Server(object):
         handlers = [HandlerClass(password_manager) for HandlerClass in
                     AUTH_HANDLERS]
         self.opener = urllib2.build_opener(*handlers)
+        if self.token:
+            self.opener.addheaders.append(
+                    ('Authorization', 'Bearer {token}'.format(self.token)))
         self.opener.add_handler(HTTPCookieProcessor())
 
     def http_get(self, url):
@@ -98,7 +128,9 @@ class V1Server(object):
         return response
 
     def build_url(self, path, query='', fragment='', params=''):
-        "So we dont have to interpolate urls ad-hoc"
+        """
+        So we dont have to interpolate urls ad-hoc
+        """
         path = self.instance + '/' + path.strip('/')
         if isinstance(query, dict):
             query = urlencode(query)
@@ -122,7 +154,7 @@ class V1Server(object):
                 self.logger.debug("  %s" % line)
         else:
             self.logger.debug(
-                "Body: non-textual content (Content-Type: %s). Not logged." % ctype)
+                    "Body: non-textual content (Content-Type: %s). Not logged." % ctype)
 
     def fetch(self, path, query='', postdata=None):
         """
@@ -183,7 +215,7 @@ class V1Server(object):
     def get_asset_xml(self, asset_type_name, oid, moment=None):
         path = '/rest-1.v1/Data/{0}/{1}/{2}'.format(asset_type_name, oid,
                                                     moment) if moment else '/rest-1.v1/Data/{0}/{1}'.format(
-            asset_type_name, oid)
+                asset_type_name, oid)
         return self.get_xml(path)
 
     def get_query_xml(self, asset_type_name, where=None, sel=None):
@@ -208,7 +240,7 @@ class V1Server(object):
         path = '/rest-1.v1/Data/{0}/{1}/{3}/{2}'.format(asset_type_name, oid,
                                                         attrname,
                                                         moment) if moment else '/rest-1.v1/Data/{0}/{1}/{2}'.format(
-            asset_type_name, oid, attrname)
+                asset_type_name, oid, attrname)
         return self.get_xml(path)
 
     def create_asset(self, asset_type_name, xmldata, context_oid=''):
