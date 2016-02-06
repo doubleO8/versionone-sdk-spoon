@@ -11,13 +11,13 @@ Sub-attribute strings between '[]'s are appended to their parent, without proces
     lastIndex = 0
     for i in range(len(input)):
         if input[i] == '[':
-            squareBrackets +=1
+            squareBrackets += 1
         elif input[i] == ']':
-            squareBrackets -=1
+            squareBrackets -= 1
         elif input[i] == '.' and squareBrackets == 0:
             ret.append(input[lastIndex:i])
-            lastIndex =i+1
+            lastIndex = i + 1
 
-    #last element
+    # last element
     ret.append(input[lastIndex:])
     return ret

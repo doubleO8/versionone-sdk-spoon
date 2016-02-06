@@ -1,9 +1,10 @@
-
 import urllib
 import yaml
 
+
 def encode_v1_whereterm(input):
     return input.replace("'", "''").replace('"', '""')
+
 
 def single_or_list(input, separator=','):
     if isinstance(input, list):
@@ -11,44 +12,46 @@ def single_or_list(input, separator=','):
     else:
         return str(input)
 
+
 def where_terms(data):
     if data.has_key("where"):
-        for attrname, value in data['where'].items(): 
-            yield("%s='%s'"%(attrname, encode_v1_whereterm(value)))
+        for attrname, value in data['where'].items():
+            yield ("%s='%s'" % (attrname, encode_v1_whereterm(value)))
 
     if data.has_key("filter"):
         filter = data['filter']
         if isinstance(filter, list):
-          for term in filter:
-            yield(term)
+            for term in filter:
+                yield (term)
         else:
-          yield(filter)
+            yield (filter)
+
 
 def query_params(data):
     wherestring = ';'.join(where_terms(data))
     if wherestring:
-        yield('where', wherestring)
+        yield ('where', wherestring)
 
     if data.has_key("select"):
-        yield('sel', single_or_list(data['select']))
+        yield ('sel', single_or_list(data['select']))
 
     if data.has_key('asof'):
-        yield('asof', data['asof'])
+        yield ('asof', data['asof'])
 
     if data.has_key('sort'):
-        yield('sort', single_or_list(data['sort']))
+        yield ('sort', single_or_list(data['sort']))
 
     if data.has_key('page'):
-        yield('page', "%(size)d,%(start)d"%data['page'])
+        yield ('page', "%(size)d,%(start)d" % data['page'])
 
     if data.has_key('find'):
-        yield('find', data['find'])
+        yield ('find', data['find'])
 
     if data.has_key('findin'):
-        yield('findin', single_or_list(data['findin']))
+        yield ('findin', single_or_list(data['findin']))
 
     if data.has_key('op'):
-        yield('op', data['op'])  
+        yield ('op', data['op'])
 
 
 def query_from_yaml(yamlstring):
@@ -58,7 +61,6 @@ def query_from_yaml(yamlstring):
         url = path + '?' + urllib.urlencode(list(query_params(data)))
         return url
     raise Exception("Invalid yaml output: " + str(data))
-
 
 
 code = """
@@ -88,4 +90,3 @@ code = """
 """
 
 print query_from_yaml(code)
-
