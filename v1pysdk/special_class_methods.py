@@ -4,6 +4,7 @@
 # This lets us extend certain asset types without having to give up the generic
 # dynamic meta implementation  
 
+
 class Attachment(object):
     def set_blob(self, blob):
         return self._v1_v1meta.set_attachment_blob(self, blob)
