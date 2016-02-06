@@ -8,7 +8,7 @@ from base_asset import BaseAsset
 from cache_decorator import memoized
 from special_class_methods import special_classes
 from none_deref import NoneDeref
-from string_utils import split_attribute
+from string_utils import split_attribute, to_unicode_or_bust
 
 
 class V1Meta(object):
@@ -130,7 +130,9 @@ class V1Meta(object):
                 node = Element('Attribute')
                 node.set('name', attrname)
                 node.set('act', 'set')
-                node.text = str(newvalue)
+                # force unicode value
+                # idea stolen from https://github.com/Matt141421356/VersionOne.SDK.Python/commit/447e042584bf3bd424c1ff7a83fb247b9d299543
+                node.text = to_unicode_or_bust(newvalue)
             update_doc.append(node)
         return update_doc
 
