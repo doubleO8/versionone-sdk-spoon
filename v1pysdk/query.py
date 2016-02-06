@@ -46,10 +46,12 @@ class V1Query(object):
             terms.append(self.where_string)
         return ';'.join(terms)
 
-    def run_single_query(self, url_params={}, api="Data"):
+    def run_single_query(self, url_params=None, api="Data"):
+        if url_params is None:
+            url_params = {}
         urlquery = urlencode(url_params)
         urlpath = '/rest-1.v1/{1}/{0}'.format(
-            self.asset_class._v1_asset_type_name, api)
+                self.asset_class._v1_asset_type_name, api)
         # warning: tight coupling ahead
         xml = self.asset_class._v1_v1meta.server.get_xml(urlpath,
                                                          query=urlquery)
@@ -95,11 +97,13 @@ class V1Query(object):
             self.sel_list.append(sel)
         return self
 
-    def where(self, terms={}, **kw):
+    def where(self, terms=None, **kw):
         """
         Add where terms to the criteria for this query. Right now this method
         only allows Equals comparisons.
         """
+        if terms is None:
+            terms = {}
         self.where_terms.update(terms)
         self.where_terms.update(kw)
         return self
