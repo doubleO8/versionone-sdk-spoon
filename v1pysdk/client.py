@@ -1,7 +1,7 @@
-import logging, time, base64
+import logging
 import urllib2
-from urllib2 import Request, urlopen, HTTPError, HTTPBasicAuthHandler, \
-    HTTPCookieProcessor
+from urllib2 import Request, HTTPError
+from urllib2 import HTTPBasicAuthHandler, HTTPCookieProcessor
 from urllib import urlencode
 from urlparse import urlunparse, urlparse
 
