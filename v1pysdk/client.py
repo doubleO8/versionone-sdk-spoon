@@ -48,7 +48,9 @@ class V1AssetNotFoundError(V1Error): pass
 
 
 class V1Server(object):
-    "Accesses a V1 HTTP server as a client of the XML API protocol"
+    """
+    Accesses a V1 HTTP server as a client of the XML API protocol
+    """
 
     def __init__(self, address="localhost", instance="VersionOne.Web",
                  username='', password='', scheme="http", instance_url=None,
@@ -123,7 +125,9 @@ class V1Server(object):
                 "Body: non-textual content (Content-Type: %s). Not logged." % ctype)
 
     def fetch(self, path, query='', postdata=None):
-        "Perform an HTTP GET or POST depending on whether postdata is present"
+        """
+        Perform an HTTP GET or POST depending on whether postdata is present
+        """
         url = self.build_url(path, query=query)
         self.logger.debug("URL: %s" % url)
         try:
