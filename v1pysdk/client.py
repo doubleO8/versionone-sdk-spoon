@@ -112,7 +112,7 @@ class V1Server(object):
         self.opener = urllib2.build_opener(*handlers)
         if self.token:
             self.opener.addheaders.append(
-                    ('Authorization', 'Bearer {token}'.format(self.token)))
+                    ('Authorization', 'Bearer {token}'.format(token=self.token)))
         self.opener.add_handler(HTTPCookieProcessor())
 
     def http_get(self, url):
