@@ -57,7 +57,7 @@ class V1Server(object):
 #    def __init__(self, address="localhost", instance="VersionOne.Web",
 #                 username='', password='', scheme="http", instance_url=None,
 #                 logparent=None, loglevel=logging.ERROR):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         If *instance_url* is set its value will override address, instance, scheme
         and object's instance_url attributes.
