@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
 import os
 import unittest
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
 try:
     from lxml.etree import ElementTree
@@ -14,7 +11,11 @@ except ImportError:
     from xml.etree import ElementTree
     from xml.etree.ElementTree import Element
 
-from examples.credentials import INSTANCE_URL, TOKEN
+#: instance URL
+INSTANCE_URL = os.getenv('VERSIONONE_INSTANCE_URL')
+#: versionone token
+TOKEN = os.getenv('VERSIONONE_TOKEN')
+
 from v1pysdk.client import V1Server
 
 
@@ -22,8 +23,9 @@ class TestV1Connection(unittest.TestCase):
     def test_connect(self):
         server = V1Server(instance_url=INSTANCE_URL, token=TOKEN)
         code, body = server.fetch('/rest-1.v1/Data/Story?sel=Name')
-        print "\n\nCode: ", code
-        print "Body: ", body
+        # self.assertEquals(200, code)
+        # print "\n\nCode: ", code
+        # print "Body: ", body
         elem = ElementTree.fromstring(body)
         self.assertEquals(elem.tag, 'Assets')
 
