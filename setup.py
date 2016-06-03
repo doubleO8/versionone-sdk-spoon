@@ -6,9 +6,12 @@ try:
 except ImportError:
     from distutils.core import setup
 
+import versioneer
+
 setup(
     name="versio9",
-    version="0.0",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description="VersionOne API client",
     author="Joe Koberg (VersionOne, Inc.)",
     author_email="Joe.Koberg@versionone.com",
