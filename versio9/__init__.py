@@ -5,3 +5,7 @@ VersionOne server (defaulting to localhost/VersionOne.Web).
 """
 
 from v1meta import V1Meta
+
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
