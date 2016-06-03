@@ -24,10 +24,10 @@ setup(
     ],
 
     install_requires=[
-        'elementtree',
-        'testtools',
-        'iso8601',
-        'python-ntlm',
+        # 'elementtree',
+        # 'testtools',
+        # 'iso8601',
+        # 'python-ntlm',
     ],
 
     test_suite="versio9.tests",
