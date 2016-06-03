@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 
-from v1pysdk import V1Meta
+from versio9 import V1Meta
 
 try:
     url, username, password = sys.argv[1:3]

@@ -1,35 +1,32 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-
-from setuptools import setup, find_packages
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 setup(
-  name = "v1pysdk",
-  version = "0.4",  
-  description = "VersionOne API client",  
-  author = "Joe Koberg (VersionOne, Inc.)",
-  author_email = "Joe.Koberg@versionone.com",
-  license = "MIT/BSD",
-  keywords = "versionone v1 api sdk",
-  url = "http://github.com/VersionOne/v1pysdk",
-  
-  packages = [
-    'v1pysdk',
-    ],  
-  
-  install_requires = [
-    'elementtree',
-    'testtools',
-    'iso8601',
-    'python-ntlm',
+    name="versio9",
+    version="0.0",
+    description="VersionOne API client",
+    author="Joe Koberg (VersionOne, Inc.)",
+    author_email="Joe.Koberg@versionone.com",
+    license="MIT/BSD",
+    keywords="versionone v1 api sdk",
+    url="http://github.com/VersionOne/versio9",
+
+    packages=[
+        'versio9',
     ],
-    
-  test_suite = "v1pysdk.tests",
-  
-  )
 
+    install_requires=[
+        'elementtree',
+        'testtools',
+        'iso8601',
+        'python-ntlm',
+    ],
 
+    test_suite="versio9.tests",
 
-
-
-
-
+)

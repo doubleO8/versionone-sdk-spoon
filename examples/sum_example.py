@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from v1pysdk import V1Meta
+from versio9 import V1Meta
 
 v1 = V1Meta(
         address='www14.v1host.com',

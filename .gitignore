@@ -5,7 +5,7 @@
 *~
 build/
 dist/
-v1pysdk.egg-info/
+*.egg-info/
 /examples/credentials.py
 /examples/output.dat
 /examples/output.txt

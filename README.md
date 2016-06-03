@@ -23,7 +23,7 @@ The source code for the VersionOne Python SDK is free and open-source, and we en
   comes with properties for all asset attributes and operations.
 
 ```python
-from v1pysdk import V1Meta
+from versio9 import V1Meta
 
 with V1Meta(
   instance_url = 'http://localhost/VersionOne',
@@ -194,7 +194,7 @@ with V1Meta(
 
   GOTCHA: All "required" attributes must be set, or the server will reject the data.
   
-      from v1pysdk import V1Meta
+      from versio9 import V1Meta
       v1 = V1Meta(username='admin', password='admin')
       new_story = v1.Story.create(
         Name = 'New Story',
@@ -228,7 +228,7 @@ with V1Meta(
 
   Attachment file bodies can be fetched or set with the special "file_data" attribute on Attachment instances. 
 
-  See the v1pysdk/tests/test_attachment.py file for a full example.
+  See the examples/test_attachment.py file for a full example.
 
 ### As Of / Historical Queries
 
@@ -294,7 +294,7 @@ with V1Meta(
     
 ## Installation
 
-run `python setup.py install`, or just copy the v1pysdk folder into your PYTHONPATH.
+run `python setup.py install`, or just copy the versio9 folder into your PYTHONPATH.
 
 
 ## Revision History

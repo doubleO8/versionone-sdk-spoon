@@ -3,7 +3,7 @@
 
 import time
 
-from v1pysdk import V1Meta
+from versio9 import V1Meta
 
 meta = V1Meta()
 

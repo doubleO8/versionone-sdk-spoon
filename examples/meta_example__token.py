@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import uuid
 from credentials import INSTANCE_URL, TOKEN
-from v1pysdk import V1Meta
+from versio9 import V1Meta
 
 v1 = V1Meta(
         instance_url=INSTANCE_URL,
@@ -23,9 +23,9 @@ v1.commit()
 print new_story.Name
 # 'New Story 2'
 print new_story.Owners
-# [<v1pysdk.v1meta.Member object at 0x02AD9710>]
+# [<versio9.v1meta.Member object at 0x02AD9710>]
 print new_story.Scope
-# <v1pysdk.v1meta.Scope object at 0x02AB2550>
+# <versio9.v1meta.Scope object at 0x02AB2550>
 
 
 for my_story in v1.Story.where(Name=story_name):
