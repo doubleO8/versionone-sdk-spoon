@@ -13,23 +13,13 @@ setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description="VersionOne API client",
-    author="Joe Koberg (VersionOne, Inc.)",
-    author_email="Joe.Koberg@versionone.com",
+    author="doubleO8",
+    author_email="wb008@hdm-stuttgart.de",
     license="MIT/BSD",
     keywords="versionone v1 api sdk",
-    url="http://github.com/VersionOne/versio9",
-
+    url="https://github.com/doubleO8/versionone-sdk-spoon",
     packages=[
         'versio9',
     ],
-
-    install_requires=[
-        'elementtree',
-        'testtools',
-        'iso8601',
-        'python-ntlm',
-    ],
-
     test_suite="versio9.tests",
-
 )
