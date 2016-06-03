@@ -18,6 +18,8 @@ setup(
     license="MIT/BSD",
     keywords="versionone v1 api sdk",
     url="https://github.com/doubleO8/versionone-sdk-spoon",
+    # https://github.com/{username}/{module_name}/tarball/{tag}.
+    download_url="https://github.com/doubleO8/versionone-sdk-spoon/tarball/0.5.0",
     packages=[
         'versio9',
     ],
